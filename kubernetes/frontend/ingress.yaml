@@ -1,0 +1,46 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress
+  labels:
+    name: ingress
+    # cert-manager.io/cluster-issuer: "letsencrypt-staging"
+spec:
+  ingressClassName: "nginx"
+  tls:
+  - hosts: 
+    - pelmeshki-one-love.ru
+    - pelmeshki-one-love.online
+    #secretName: app-tls
+  rules:
+  - host: pelmeshki-one-love.ru
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: frontend
+            port: 
+              number: 80
+      - pathType: Prefix
+        path: "/auth/whoami"
+        backend:
+          service:
+            name: backend
+            port: 
+              number: 8081
+      - pathType: Prefix
+        path: "/products"
+        backend:
+          service:
+            name: backend
+            port: 
+              number: 8081
+      - pathType: Prefix
+        path: "/categories"
+        backend:
+          service:
+            name: backend
+            port: 
+              number: 8081          
